@@ -24,7 +24,7 @@ void la_ht_destroy(Ht *htbl)
 {
 	for(int i = 0; i < htbl->buckets; i++)
 	{
-		htbl->table[i]->destroy;
+		htbl->table[i].destroy;
 	}
 	free(htbl->table);
 	memset(htbl, 0, sizeof(Ht));
@@ -36,14 +36,14 @@ int la_ht_insert(Ht *htbl, const void *data)
 	void *tmp = (void *) data;
 	int bucket, retval;
 
-	if(la_set_lookup(htbl, &tmp) == 0)
+	if(la_ht_set_lookup(htbl, &tmp) == 0)
 	{
 		return 1;
 	}
 
-	bucket = htbl->hash(data);
+	bucket = htbl->hash(data) % htbl->buckets;
 	
-	if((retval = la_list_insert_next(htbl->table[bucket], NULL, data)) == 0)
+	if((retval = la_list_ins_next(&htbl->table[bucket], NULL, data)) == 0)
 	{
 		htbl->size++;
 	}
@@ -51,10 +51,46 @@ int la_ht_insert(Ht *htbl, const void *data)
 	return retval;	
 }
 
-int la_ht_set_remove()
-{}
+int la_ht_set_remove(Ht *htbl, void **data)
+{
+	int bucket = htbl->hash(*data) % htbl->buckets;
 
-int la_ht_set_lookup()
-{}
+	ListNode *prev = NULL;
+
+	for(ListNode *rem = list_head(&htbl->table[bucket]); rem != NULL; rem = list_next(rem))
+	{		
+		if(htbl->match(*data, list_data(rem)))
+		{
+			if(la_list_rem_next(&htbl->table[bucket], prev, data) == 0){
+				htbl->size--;
+				*data = rem;
+				return 0;
+			}
+			else 
+			{
+				return -1;
+			}
+		}
+		prev = rem;
+	}
+	return -1;
+}
+
+int la_ht_set_lookup(Ht *htbl, void **data)
+{
+	int bucket = htbl->hash(*data) % htbl->buckets;
+	
+	ListNode *prev = NULL;
+
+	for(ListNode *rem = list_head(&htbl->table[bucket]); rem != NULL; rem = list_next(rem))
+	{
+		if(htbl->match(*data, list_data(rem)))
+		{
+			*data = list_data(rem);
+			return 0;
+		}
+	}	
+	return -1;
+}
 
 
