@@ -33,9 +33,28 @@ void la_ht_destroy(Ht *htbl)
 
 int la_ht_insert(Ht *htbl, const void *data)
 {
-	int index = htbl->hash(data);
-	la_list_insert_next(htbl->table[index], NULL, data);
+	void *tmp = (void *) data;
+	int bucket, retval;
+
+	if(la_set_lookup(htbl, &tmp) == 0)
+	{
+		return 1;
+	}
+
+	bucket = htbl->hash(data);
 	
+	if((retval = la_list_insert_next(htbl->table[bucket], NULL, data)) == 0)
+	{
+		htbl->size++;
+	}
+
+	return retval;	
 }
+
+int la_ht_set_remove()
+{}
+
+int la_ht_set_lookup()
+{}
 
 
