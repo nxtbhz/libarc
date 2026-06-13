@@ -24,7 +24,7 @@ void la_ht_destroy(Ht *htbl)
 {
 	for(int i = 0; i < htbl->buckets; i++)
 	{
-		htbl->table[i].destroy;
+		la_list_destroy(&htbl->table[i]);
 	}
 	free(htbl->table);
 	memset(htbl, 0, sizeof(Ht));
@@ -78,8 +78,6 @@ int la_ht_set_remove(Ht *htbl, void **data)
 int la_ht_set_lookup(Ht *htbl, void **data)
 {
 	int bucket = htbl->hash(*data) % htbl->buckets;
-	
-	ListNode *prev = NULL;
 
 	for(ListNode *rem = list_head(&htbl->table[bucket]); rem != NULL; rem = list_next(rem))
 	{
