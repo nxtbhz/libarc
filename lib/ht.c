@@ -63,7 +63,6 @@ int la_ht_set_remove(Ht *htbl, void **data)
 		{
 			if(la_list_rem_next(&htbl->table[bucket], prev, data) == 0){
 				htbl->size--;
-				*data = rem;
 				return 0;
 			}
 			else 
