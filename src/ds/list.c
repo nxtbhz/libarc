@@ -1,6 +1,6 @@
 #include <arc/ds/list.h>
 
-void arc_list_init(List *list, void (destroy)(void *data))
+void arc_list_init(List *list, void(destroy)(void *data))
 {
 	list->size = 0;
 	list->destroy = destroy;
@@ -14,9 +14,9 @@ void arc_list_init(List *list, void (destroy)(void *data))
 void arc_list_destroy(List *list)
 {
 	void *data;
-	while(arc_list_rem_next(list, NULL, &data) == 0 && list->destroy != NULL)
+	while (arc_list_rem_next(list, NULL, &data) == 0 && list->destroy != NULL)
 	{
-		list->destroy(data);	
+		list->destroy(data);
 	}
 	memset(list, 0, sizeof(List));
 	return;
@@ -26,15 +26,15 @@ int arc_list_ins_next(List *list, ListNode *node, const void *data)
 {
 	ListNode *new_element;
 
-	if((new_element = malloc(sizeof(ListNode))) == NULL)
+	if ((new_element = malloc(sizeof(ListNode))) == NULL)
 	{
 		return -1;
 	}
 
-	new_element->data = (void *) data;
-	if(node == NULL)
+	new_element->data = (void *)data;
+	if (node == NULL)
 	{
-		if(list_size(list) == 0)
+		if (list_size(list) == 0)
 		{
 			list->tail = new_element;
 		}
@@ -43,7 +43,7 @@ int arc_list_ins_next(List *list, ListNode *node, const void *data)
 	}
 	else
 	{
-		if(list_is_tail(node))
+		if (list_is_tail(node))
 		{
 			list->tail = new_element;
 		}
@@ -59,34 +59,33 @@ int arc_list_ins_next(List *list, ListNode *node, const void *data)
 int arc_list_rem_next(List *list, ListNode *node, void **data)
 {
 	ListNode *rem;
-	if(list_size(list) == 0)
+	if (list_size(list) == 0)
 	{
 		return -1;
 	}
 
-	if(node == NULL)
+	if (node == NULL)
 	{
 		*data = list->head->data;
 		rem = list->head;
 		list->head = list->head->next;
 
-		if(list_size(list) == 0)
+		if (list_size(list) == 0)
 		{
 			list->tail = NULL;
 		}
-
-	}	
+	}
 	else
-	{	
-		if(node->next == NULL)
+	{
+		if (node->next == NULL)
 		{
 			return -1;
 		}
 		*data = node->next->data;
 		rem = node->next;
 		node->next = node->next->next;
-		
-		if(node->next == NULL)
+
+		if (node->next == NULL)
 		{
 			list->tail = node;
 		}

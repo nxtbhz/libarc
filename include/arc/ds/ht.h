@@ -11,7 +11,7 @@ typedef struct ht_t
 	int (*match)(const void *k1, const void *k2);
 	void (*destroy)(void *data);
 	int size;
-	List *table;	
+	List *table;
 } Ht;
 
 int arc_ht_init(Ht *htbl, int buckets, int (*hash)(const void *key), int (*match)(const void *k1, const void *k2), void (*destroy)(void *data));
