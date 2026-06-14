@@ -46,14 +46,18 @@ int arc_bitree_ins_left(BiTree *tree, BiTreeNode *element, const void *data)
     return 0;
 }
 
-int arc_bitree_ins_right(BiTree *tree, BiTreeNode *element, const void *data) {
+int arc_bitree_ins_right(BiTree *tree, BiTreeNode *element, const void *data)
+{
     BiTreeNode *new_node, **position;
 
-    if (element == NULL) {
+    if (element == NULL)
+    {
         if (bitree_size(tree) > 0)
             return -1;
         position = &tree->root;
-    } else {
+    }
+    else
+    {
         if (bitree_right(element) != NULL)
             return -1;
         position = &element->right;
@@ -78,9 +82,9 @@ void arc_bitree_rem_left(BiTree *tree, BiTreeNode *node)
         return;
     }
 
-    BiTreeNode **pos;
+    BiTreeNode **pos = NULL;
 
-    if (*pos == NULL)
+    if (node == NULL)
     {
         pos = &tree->root;
     }
@@ -102,7 +106,7 @@ void arc_bitree_rem_left(BiTree *tree, BiTreeNode *node)
         *pos = NULL;
         tree->size--;
     }
-    return 0;
+    return;
 }
 
 void arc_bitree_rem_right(BiTree *tree, BiTreeNode *node)
@@ -112,9 +116,9 @@ void arc_bitree_rem_right(BiTree *tree, BiTreeNode *node)
         return;
     }
 
-    BiTreeNode **pos;
+    BiTreeNode **pos = NULL;
 
-    if (*pos == NULL)
+    if (node == NULL)
     {
         pos = &tree->root;
     }
@@ -136,13 +140,15 @@ void arc_bitree_rem_right(BiTree *tree, BiTreeNode *node)
         *pos = NULL;
         tree->size--;
     }
-    return 0;
+    return;
 }
 
-int arc_bitree_merge(BiTree *merge, BiTree *left, BiTree *right, const void *data) {
+int arc_bitree_merge(BiTree *merge, BiTree *left, BiTree *right, const void *data)
+{
     arc_bitree_init(merge, left->destroy);
 
-    if (arc_bitree_ins_left(merge, NULL, data) != 0) {
+    if (arc_bitree_ins_left(merge, NULL, data) != 0)
+    {
         arc_bitree_destroy(merge);
         return -1;
     }
