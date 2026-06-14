@@ -1,6 +1,6 @@
-#include <la/arc.h>
+#include <arc/ds/ht.h>
 
-int la_ht_init(Ht *htbl, int buckets, int (*hash)(const void *key), int (*match)(const void *k1, const void *k2), void (*destroy)(void *data))
+int arc_ht_init(Ht *htbl, int buckets, int (*hash)(const void *key), int (*match)(const void *k1, const void *k2), void (*destroy)(void *data))
 {
 	if((htbl->table = malloc(sizeof(List) * buckets)) == NULL)
 	{
@@ -15,35 +15,35 @@ int la_ht_init(Ht *htbl, int buckets, int (*hash)(const void *key), int (*match)
 
 	for(int i = 0; i < buckets; i++)
 	{
-		la_list_init(&htbl->table[i], destroy);
+		arc_list_init(&htbl->table[i], destroy);
 	}
 	return 0;
 }
 
-void la_ht_destroy(Ht *htbl)
+void arc_ht_destroy(Ht *htbl)
 {
 	for(int i = 0; i < htbl->buckets; i++)
 	{
-		la_list_destroy(&htbl->table[i]);
+		arc_list_destroy(&htbl->table[i]);
 	}
 	free(htbl->table);
 	memset(htbl, 0, sizeof(Ht));
 	return;
 }
 
-int la_ht_insert(Ht *htbl, const void *data)
+int arc_ht_insert(Ht *htbl, const void *data)
 {
 	void *tmp = (void *) data;
 	int bucket, retval;
 
-	if(la_ht_set_lookup(htbl, &tmp) == 0)
+	if(arc_ht_set_lookup(htbl, &tmp) == 0)
 	{
 		return 1;
 	}
 
 	bucket = htbl->hash(data) % htbl->buckets;
 	
-	if((retval = la_list_ins_next(&htbl->table[bucket], NULL, data)) == 0)
+	if((retval = arc_list_ins_next(&htbl->table[bucket], NULL, data)) == 0)
 	{
 		htbl->size++;
 	}
@@ -51,7 +51,7 @@ int la_ht_insert(Ht *htbl, const void *data)
 	return retval;	
 }
 
-int la_ht_set_remove(Ht *htbl, void **data)
+int arc_ht_set_remove(Ht *htbl, void **data)
 {
 	int bucket = htbl->hash(*data) % htbl->buckets;
 
@@ -61,7 +61,7 @@ int la_ht_set_remove(Ht *htbl, void **data)
 	{		
 		if(htbl->match(*data, list_data(rem)))
 		{
-			if(la_list_rem_next(&htbl->table[bucket], prev, data) == 0){
+			if(arc_list_rem_next(&htbl->table[bucket], prev, data) == 0){
 				htbl->size--;
 				return 0;
 			}
@@ -75,7 +75,7 @@ int la_ht_set_remove(Ht *htbl, void **data)
 	return -1;
 }
 
-int la_ht_set_lookup(Ht *htbl, void **data)
+int arc_ht_set_lookup(Ht *htbl, void **data)
 {
 	int bucket = htbl->hash(*data) % htbl->buckets;
 

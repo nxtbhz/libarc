@@ -1,7 +1,6 @@
-#include <la/list.h>
-#include <la/types.h>
+#include <arc/ds/list.h>
 
-void la_list_init(List *list, void (destroy)(void *data))
+void arc_list_init(List *list, void (destroy)(void *data))
 {
 	list->size = 0;
 	list->destroy = destroy;
@@ -12,10 +11,10 @@ void la_list_init(List *list, void (destroy)(void *data))
 	return;
 }
 
-void la_list_destroy(List *list)
+void arc_list_destroy(List *list)
 {
 	void *data;
-	while(la_list_rem_next(list, NULL, &data) == 0 && list->destroy != NULL)
+	while(arc_list_rem_next(list, NULL, &data) == 0 && list->destroy != NULL)
 	{
 		list->destroy(data);	
 	}
@@ -23,7 +22,7 @@ void la_list_destroy(List *list)
 	return;
 }
 
-int la_list_ins_next(List *list, ListNode *node, const void *data)
+int arc_list_ins_next(List *list, ListNode *node, const void *data)
 {
 	ListNode *new_element;
 
@@ -57,7 +56,7 @@ int la_list_ins_next(List *list, ListNode *node, const void *data)
 	return 0;
 }
 
-int la_list_rem_next(List *list, ListNode *node, void **data)
+int arc_list_rem_next(List *list, ListNode *node, void **data)
 {
 	ListNode *rem;
 	if(list_size(list) == 0)

@@ -1,5 +1,8 @@
-#ifndef LIST_H
-#define LIST_H
+#ifndef ARC_DS_LIST_H
+#define ARC_DS_LIST_H
+
+#include <stdlib.h>
+#include <string.h>
 
 typedef struct list_node_t
 {
@@ -16,10 +19,10 @@ typedef struct list_t
 	ListNode *tail;
 } List;
 
-void la_list_init(List *list, void (destroy)(void *data));
-void la_list_destroy(List *list);
-int la_list_ins_next(List *list, ListNode *node, const void *data);
-int la_list_rem_next(List *list, ListNode *node, void **data);
+void arc_list_init(List *list, void (destroy)(void *data));
+void arc_list_destroy(List *list);
+int arc_list_ins_next(List *list, ListNode *node, const void *data);
+int arc_list_rem_next(List *list, ListNode *node, void **data);
 
 #define list_size(list) (list)->size
 #define list_head(list) (list)->head
@@ -29,4 +32,4 @@ int la_list_rem_next(List *list, ListNode *node, void **data);
 #define list_data(element) (element)->data 
 #define list_next(element) (element)->next
 
-#endif
+#endif /* ARC_DS_LIST_H */
