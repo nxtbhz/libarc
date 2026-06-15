@@ -106,12 +106,17 @@ void test_arc_bitree_merge(void)
     arc_bitree_destroy(&merged_tree);
 }
 
+#include <stdio.h>
+
 int main(void)
 {
+    printf("Binary tree unit tests\n");
+
     test_arc_bitree_init_and_macros();
     test_arc_bitree_insertion_and_properties();
     test_arc_bitree_removal();
     test_arc_bitree_merge();
 
+    printf("Binary Tree tests passed successfully\n");
     return 0;
 }
