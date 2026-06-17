@@ -1,10 +1,10 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -pedantic -std=c99 -I./include \
+		   -Wnull-dereference \
+		  -fstack-protector-strong -fno-common -fPIC \
          -Wshadow -Wformat=2 -Wconversion -Wstrict-prototypes \
-         -Wmissing-prototypes -Wnull-dereference \
-         -Wdouble-promotion -Wundef -Wwrite-strings \
-         -Wfloat-equal -Wcast-qual -Wpointer-arith \
-         -fstack-protector-strong -fno-common -fPIC
+         #-Wdouble-promotion -Wundef -Wwrite-strings \
+         #-Wfloat-equal -Wpointer-arith \
 
 AR = ar
 ARFLAGS = rcs

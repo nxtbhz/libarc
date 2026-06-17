@@ -37,7 +37,7 @@ int arc_bitree_ins_left(BiTree *tree, BiTreeNode *element, const void *data)
     if ((new_node = malloc(sizeof(BiTreeNode))) == NULL)
         return -1;
 
-    new_node->data = (void *)data;
+    new_node->data = (void *) data;
     new_node->left = NULL;
     new_node->right = NULL;
     *position = new_node;
@@ -66,7 +66,7 @@ int arc_bitree_ins_right(BiTree *tree, BiTreeNode *element, const void *data)
     if ((new_node = malloc(sizeof(BiTreeNode))) == NULL)
         return -1;
 
-    new_node->data = (void *)data;
+    new_node->data = (void *) data;
     new_node->left = NULL;
     new_node->right = NULL;
     *position = new_node;
