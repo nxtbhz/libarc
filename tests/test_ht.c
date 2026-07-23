@@ -1,4 +1,5 @@
 #include <arc/ds.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -34,6 +35,16 @@ int main(void) {
     status = arc_ht_insert(ht, val2);
     assert(status == 0);
 
+    int *val_neg = malloc(sizeof(int));
+    *val_neg = -5;
+    status = arc_ht_insert(ht, val_neg);
+    assert(status == 0);
+
+    int *val_min = malloc(sizeof(int));
+    *val_min = INT_MIN;
+    status = arc_ht_insert(ht, val_min);
+    assert(status == 0);
+
     int target1 = 10;
     void *data_look = &target1;
     status = arc_ht_set_lookup(ht, &data_look);
@@ -44,6 +55,18 @@ int main(void) {
     void *data_look_fail = &target2;
     status = arc_ht_set_lookup(ht, &data_look_fail);
     assert(status == -1);
+
+    int target_neg = -5;
+    void *data_look_neg = &target_neg;
+    status = arc_ht_set_lookup(ht, &data_look_neg);
+    assert(status == 0);
+    assert(*(int *)data_look_neg == -5);
+
+    int target_min = INT_MIN;
+    void *data_look_min = &target_min;
+    status = arc_ht_set_lookup(ht, &data_look_min);
+    assert(status == 0);
+    assert(*(int *)data_look_min == INT_MIN);
 
     int target3 = 10;
     void *data_rem = &target3;
@@ -56,6 +79,13 @@ int main(void) {
     void *data_rem_fail = &target4;
     status = arc_ht_set_remove(ht, &data_rem_fail);
     assert(status == -1);
+
+    int target5 = -5;
+    void *data_rem_neg = &target5;
+    status = arc_ht_set_remove(ht, &data_rem_neg);
+    assert(status == 0);
+    assert(*(int *)data_rem_neg == -5);
+    free(data_rem_neg);
 
     int *val3 = malloc(sizeof(int));
     *val3 = 30;

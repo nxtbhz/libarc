@@ -1,5 +1,12 @@
 #include <arc/ds/ht.h>
 
+static int arc_ht_bucket(const Ht *htbl, const void *data)
+{
+	int bucket = htbl->hash(data) % htbl->buckets;
+
+	return (bucket < 0) ? bucket + htbl->buckets : bucket;
+}
+
 int arc_ht_init(Ht *htbl, int buckets, int (*hash)(const void *key), int (*match)(const void *k1, const void *k2), void (*destroy)(void *data))
 {
 	if (buckets <= 0)
@@ -46,7 +53,7 @@ int arc_ht_insert(Ht *htbl, const void *data)
 		return 1;
 	}
 
-	bucket = htbl->hash(data) % htbl->buckets;
+	bucket = arc_ht_bucket(htbl, data);
 
 	if ((retval = arc_list_ins_next(&htbl->table[bucket], NULL, data)) == 0)
 	{
@@ -58,7 +65,7 @@ int arc_ht_insert(Ht *htbl, const void *data)
 
 int arc_ht_set_remove(Ht *htbl, void **data)
 {
-	int bucket = htbl->hash(*data) % htbl->buckets;
+	int bucket = arc_ht_bucket(htbl, *data);
 
 	ListNode *prev = NULL;
 
@@ -83,7 +90,7 @@ int arc_ht_set_remove(Ht *htbl, void **data)
 
 int arc_ht_set_lookup(Ht *htbl, void **data)
 {
-	int bucket = htbl->hash(*data) % htbl->buckets;
+	int bucket = arc_ht_bucket(htbl, *data);
 
 	for (ListNode *rem = list_head(&htbl->table[bucket]); rem != NULL; rem = list_next(rem))
 	{
