@@ -22,7 +22,7 @@ TEST_BINS = $(patsubst $(TEST_DIR)/%.c, $(BIN_DIR)/%, $(TEST_SRCS))
 
 LIB = $(LIB_DIR)/libarc.a
 
-.PHONY: all clean test
+.PHONY: all clean test memcheck
 
 all: $(LIB) $(TEST_BINS)
 
@@ -39,6 +39,16 @@ $(OBJ_DIR) $(LIB_DIR) $(BIN_DIR):
 	mkdir -p $@
 
 test: $(TEST_BINS)
+	@for test_bin in $(TEST_BINS); do \
+		echo "Running $$test_bin..."; \
+		$$test_bin || exit 1; \
+	done
+
+memcheck: $(TEST_BINS)
+	@command -v valgrind >/dev/null 2>&1 || { \
+		echo "valgrind not found. Install it or run 'make test' for normal tests."; \
+		exit 1; \
+	}
 	@for test_bin in $(TEST_BINS); do \
 		echo "Running $$test_bin with valgrind..."; \
 		valgrind --leak-check=full --error-exitcode=1 $$test_bin || exit 1; \
