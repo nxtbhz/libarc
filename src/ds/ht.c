@@ -2,7 +2,12 @@
 
 int arc_ht_init(Ht *htbl, int buckets, int (*hash)(const void *key), int (*match)(const void *k1, const void *k2), void (*destroy)(void *data))
 {
-	if ((htbl->table = malloc(sizeof(List) * buckets)) == NULL)
+	if (buckets <= 0)
+	{
+		return -1;
+	}
+
+	if ((htbl->table = malloc(sizeof(List) * (size_t)buckets)) == NULL)
 	{
 		return -1;
 	}

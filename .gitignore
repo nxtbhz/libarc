@@ -60,4 +60,5 @@ test_list
 obj/
 bin/
 lib/
-ttt/
+benchmarks/
+rm.md
