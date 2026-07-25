@@ -1,6 +1,6 @@
+#include <arc/ds/bitree.h>
 #include <assert.h>
 #include <stddef.h>
-#include <arc/ds/bitree.h>
 
 void dummy_destroy(void *data)
 {

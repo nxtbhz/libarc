@@ -1,13 +1,15 @@
 #include <arc/ds.h>
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 
-void free_data(void *data) {
+void free_data(void *data)
+{
     free(data);
 }
 
-int main(void) {
+int main(void)
+{
     printf("Linked list unit tests\n");
 
     List *list = malloc(sizeof(List));

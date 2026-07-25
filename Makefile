@@ -19,10 +19,11 @@ SRCS = $(wildcard $(SRC_DIR)/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 TEST_SRCS = $(wildcard $(TEST_DIR)/test_*.c)
 TEST_BINS = $(patsubst $(TEST_DIR)/%.c, $(BIN_DIR)/%, $(TEST_SRCS))
+FORMAT_SRCS = $(shell find . -name '*.c' -type f)
 
 LIB = $(LIB_DIR)/libarc.a
 
-.PHONY: all clean test memcheck
+.PHONY: all clean test memcheck format
 
 all: $(LIB) $(TEST_BINS)
 
@@ -53,6 +54,9 @@ memcheck: $(TEST_BINS)
 		echo "Running $$test_bin with valgrind..."; \
 		valgrind --leak-check=full --error-exitcode=1 $$test_bin || exit 1; \
 	done
+
+format:
+	clang-format -style=microsoft -i $(FORMAT_SRCS)
 
 clean:
 	rm -rf $(OBJ_DIR) $(LIB_DIR) $(BIN_DIR)

@@ -1,22 +1,26 @@
 #include <arc/ds.h>
+#include <assert.h>
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 
-int hash_int(const void *key) {
+int hash_int(const void *key)
+{
     return *(const int *)key;
 }
 
-int match_int(const void *k1, const void *k2) {
+int match_int(const void *k1, const void *k2)
+{
     return *(const int *)k1 == *(const int *)k2;
 }
 
-void free_data(void *data) {
+void free_data(void *data)
+{
     free(data);
 }
 
-int main(void) {
+int main(void)
+{
     printf("Hash table unit tests\n");
 
     Ht *ht = malloc(sizeof(Ht));
