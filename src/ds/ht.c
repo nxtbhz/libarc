@@ -2,6 +2,11 @@
 
 static int arc_ht_bucket(const Ht *htbl, const void *data)
 {
+    if (htbl->hash == NULL)
+    {
+        return -1;
+    }
+
     int bucket = htbl->hash(data) % htbl->buckets;
 
     return (bucket < 0) ? bucket + htbl->buckets : bucket;
@@ -16,6 +21,11 @@ int arc_ht_init(Ht *htbl, int buckets, int (*hash)(const void *key), int (*match
     }
 
     if ((htbl->table = malloc(sizeof(List) * (size_t)buckets)) == NULL)
+    {
+        return -1;
+    }
+
+    if (hash == NULL || match == NULL)
     {
         return -1;
     }
