@@ -20,12 +20,12 @@ int arc_ht_init(Ht *htbl, int buckets, int (*hash)(const void *key), int (*match
         return -1;
     }
 
-    if ((htbl->table = malloc(sizeof(List) * (size_t)buckets)) == NULL)
+    if (hash == NULL || match == NULL)
     {
         return -1;
     }
 
-    if (hash == NULL || match == NULL)
+    if ((htbl->table = malloc(sizeof(List) * (size_t)buckets)) == NULL)
     {
         return -1;
     }
@@ -76,6 +76,11 @@ int arc_ht_insert(Ht *htbl, const void *data)
 
 int arc_ht_set_remove(Ht *htbl, void **data)
 {
+    if (data == NULL)
+    {
+        return -1;
+    }
+
     int bucket = arc_ht_bucket(htbl, *data);
 
     ListNode *prev = NULL;
@@ -101,6 +106,11 @@ int arc_ht_set_remove(Ht *htbl, void **data)
 
 int arc_ht_set_lookup(Ht *htbl, void **data)
 {
+    if (data == NULL)
+    {
+        return -1;
+    }
+
     int bucket = arc_ht_bucket(htbl, *data);
 
     for (ListNode *rem = list_head(&htbl->table[bucket]); rem != NULL; rem = list_next(rem))

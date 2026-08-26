@@ -70,7 +70,10 @@ int arc_list_rem_next(List *list, ListNode *node, void **data)
 
     if (node == NULL)
     {
-        *data = list->head->data;
+        if (data != NULL)
+        {
+            *data = list->head->data;
+        }
         rem = list->head;
         list->head = list->head->next;
 
@@ -86,7 +89,10 @@ int arc_list_rem_next(List *list, ListNode *node, void **data)
             return -1;
         }
 
-        *data = node->next->data;
+        if (data != NULL)
+        {
+            *data = node->next->data;
+        }
         rem = node->next;
         node->next = node->next->next;
 

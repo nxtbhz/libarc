@@ -3,8 +3,8 @@ CFLAGS = -Wall -Wextra -Werror -pedantic -std=c99 -I./include \
 		   -Wnull-dereference \
 		  -fstack-protector-strong -fno-common -fPIC \
          -Wshadow -Wformat=2 -Wconversion -Wstrict-prototypes \
-         #-Wdouble-promotion -Wundef -Wwrite-strings \
-         #-Wfloat-equal -Wpointer-arith \
+         -Wdouble-promotion -Wundef -Wwrite-strings \
+         -Wfloat-equal -Wpointer-arith \
 
 AR = ar
 ARFLAGS = rcs
